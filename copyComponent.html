@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="react.production.min.js"></script>
+	<script src="react-dom.production.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+	<link rel="stylesheet" href="style.css">
+	<script type="text/babel">
+		var mas =[
+			{
+				photo:"14.jpg",
+				name:"Маріо АРКЕС БЛАСКО",
+				number: 17
+			},
+			{
+				photo:"40.jpg",
+				name:"Ігор БОГАЧ",
+				number: 40
+			},
+			{
+				photo:"60.jpg",
+				name:"Володимир Войтович",
+				number: 60
+			},
+			{
+				photo:"64.jpg",
+				name:"Олег Верієменко",
+				number: 64
+			},
+			{
+				photo:"79.jpg",
+				name:"Леонід Акулінін",
+				number: 79
+			}
+
+		]
+		class Player extends React.Component{
+			constructor(props){
+				super(props)
+				
+			}
+			render(){
+				return (
+						<li className="li">
+							<div className="contact">
+								<img className="photo" src={this.props.photo}/>
+								<div className="name">{this.props.name}</div>
+								<div className="number">{this.props.number}</div>
+							</div>
+						</li>
+						)
+			}
+
+		}
+		class PlayerList extends React.Component{
+			constructor(props){
+				super(props)
+				this.handler=this.handler.bind(this);
+				this.state={list:mas};
+			}
+			
+			eachplayer(item,i){
+				return(
+						<Player name={item.name} photo={item.photo} number={item.number} />
+					)
+			}
+			handler(event){
+				console.log(event.target.value);
+				var txt = event.target.value;
+				var mas1 = mas.filter(function(item){
+					var name = item.name.toLowerCase();
+					var pos = name.indexOf(txt.toLowerCase());
+					if(pos!==-1)
+						return true;
+					else 
+						return false;
+
+				})
+				this.setState({
+						list:mas1
+					})
+			}
+			render(){
+				var list = this.state.list;
+				return(
+						<div className="list">
+							<input className="inp" onChange={this.handler}/>
+							<ul>
+								{list.map(this.eachplayer)}
+							</ul>
+						</div>
+
+					)
+			}
+
+		}
+		ReactDOM.render(
+			<PlayerList/>,
+			document.getElementById("search")
+		)
+		
+	</script>
+</head>
+<body>
+	<div id="search"></div>
+</body>
+</html>
